@@ -49,7 +49,6 @@ def user_input_features():
     features = pd.DataFrame(data, index=[0])
     return features
 
-
 df = user_input_features()
 
 # Main Panel
@@ -59,27 +58,29 @@ st.header('Specified Input parameters')
 st.write(df)
 st.write('---')
 
-# Build Regression Model
-model = RandomForestRegressor()
-model.fit(X, Y.values.ravel())
-# Apply Model to Make Prediction
-prediction = model.predict(df)
+if st.button('Train and Predict'):
+    # Build Regression Model
+    model = RandomForestRegressor()
+    model.fit(X, Y.values.ravel())
+    # Apply Model to Make Prediction
+    prediction = model.predict(df)
 
-st.header('Prediction of MEDV')
-st.write(prediction)
-st.write('---')
+    st.header('Prediction')
+    st.write(prediction)
+    st.write('---')
 
 # Explaining the model's predictions using SHAP values
 # https://github.com/slundberg/shap
-explainer = shap.TreeExplainer(model)
-shap_values = explainer.shap_values(X)
+def explain_model():
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(X)
 
-st.header('Feature Importance')
-plt.title('Feature importance based on SHAP values')
-shap.summary_plot(shap_values, X)
-st.pyplot(bbox_inches='tight')
-st.write('---')
+    st.header('Feature Importance')
+    plt.title('Feature importance based on SHAP values')
+    shap.summary_plot(shap_values, X)
+    st.pyplot(bbox_inches='tight')
+    st.write('---')
 
-plt.title('Feature importance based on SHAP values (Bar)')
-shap.summary_plot(shap_values, X, plot_type="bar")
-st.pyplot(bbox_inches='tight')
+    plt.title('Feature importance based on SHAP values (Bar)')
+    shap.summary_plot(shap_values, X, plot_type="bar")
+    st.pyplot(bbox_inches='tight')
