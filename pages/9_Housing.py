@@ -15,7 +15,7 @@ st.write('---')
 from sklearn.datasets import fetch_california_housing  # For California housing
 
 housing = fetch_california_housing(as_frame=True)
-X = pd.DataFrame(housing.data, columns=housing.feature_names)
+X = pd.DataFrame(housing.data)
 Y = pd.DataFrame(housing.target)
 
 # Sidebar
@@ -61,7 +61,7 @@ st.write('---')
 
 # Build Regression Model
 model = RandomForestRegressor()
-model.fit(X, Y)
+model.fit(X, Y.values.ravel())
 # Apply Model to Make Prediction
 prediction = model.predict(df)
 
