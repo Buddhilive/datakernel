@@ -28,16 +28,19 @@ def load_data(year):
     return playerstats
 playerstats = load_data(selected_year)
 
+# st.write(playerstats["Team"].unique())
+
 # Sidebar - Team selection
-sorted_unique_team = sorted(playerstats.Tm.unique())
-selected_team = st.sidebar.multiselect('Team', sorted_unique_team, sorted_unique_team)
+playerstats["Team"] = playerstats["Team"].astype(str)
+sorted_unique_team = sorted(playerstats["Team"].unique())
+selected_team = st.multiselect('Team', sorted_unique_team, sorted_unique_team)
 
 # Sidebar - Position selection
 unique_pos = ['C','PF','SF','PG','SG']
-selected_pos = st.sidebar.multiselect('Position', unique_pos, unique_pos)
+selected_pos = st.multiselect('Position', unique_pos, unique_pos)
 
 # Filtering data
-df_selected_team = playerstats[(playerstats.Tm.isin(selected_team)) & (playerstats.Pos.isin(selected_pos))]
+df_selected_team = playerstats[(playerstats["Team"].isin(selected_team)) & (playerstats.Pos.isin(selected_pos))]
 
 st.header('Display Player Stats of Selected Team(s)')
 st.write('Data Dimension: ' + str(df_selected_team.shape[0]) + ' rows and ' + str(df_selected_team.shape[1]) + ' columns.')
@@ -59,7 +62,11 @@ if st.button('Intercorrelation Heatmap'):
     df_selected_team.to_csv('output.csv',index=False)
     df = pd.read_csv('output.csv')
 
-    corr = df.corr()
+    # Select only numeric columns
+    df_numeric = df.select_dtypes(include=['number'])
+
+    # Calculate correlation matrix
+    corr = df_numeric.corr()
     mask = np.zeros_like(corr)
     mask[np.triu_indices_from(mask)] = True
     with sns.axes_style("white"):
