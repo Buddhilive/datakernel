@@ -20,20 +20,20 @@ Y = pd.DataFrame(housing.target)
 
 # Sidebar
 # Header of Specify Input Parameters
-st.sidebar.header('Specify Input Parameters')
+st.header('Specify Input Parameters')
 
 st.write(X)
 
 def user_input_features():
     # Using sliders for each feature in the California housing dataset
-    MedInc = st.sidebar.slider('MedInc', X.MedInc.min(), X.MedInc.max(), X.MedInc.mean())
-    HouseAge = st.sidebar.slider('HouseAge', X.HouseAge.min(), X.HouseAge.max(), X.HouseAge.mean())
-    AveRooms = st.sidebar.slider('AveRooms', X.AveRooms.min(), X.AveRooms.max(), X.AveRooms.mean())
-    AveBedrms = st.sidebar.slider('AveBedrms', X.AveBedrms.min(), X.AveBedrms.max(), X.AveBedrms.mean())
-    Population = st.sidebar.slider('Population', X.Population.min(), X.Population.max(), X.Population.mean())
-    AveOccup = st.sidebar.slider('AveOccup', X.AveOccup.min(), X.AveOccup.max(), X.AveOccup.mean())
-    Latitude = st.sidebar.slider('Latitude', X.Latitude.min(), X.Latitude.max(), X.Latitude.mean())
-    Longitude = st.sidebar.slider('Longitude', X.Longitude.min(), X.Longitude.max(), X.Longitude.mean())
+    MedInc = st.slider('MedInc', X.MedInc.min(), X.MedInc.max(), X.MedInc.mean())
+    HouseAge = st.slider('HouseAge', X.HouseAge.min(), X.HouseAge.max(), X.HouseAge.mean())
+    AveRooms = st.slider('AveRooms', X.AveRooms.min(), X.AveRooms.max(), X.AveRooms.mean())
+    AveBedrms = st.slider('AveBedrms', X.AveBedrms.min(), X.AveBedrms.max(), X.AveBedrms.mean())
+    Population = st.slider('Population', X.Population.min(), X.Population.max(), X.Population.mean())
+    AveOccup = st.slider('AveOccup', X.AveOccup.min(), X.AveOccup.max(), X.AveOccup.mean())
+    Latitude = st.slider('Latitude', X.Latitude.min(), X.Latitude.max(), X.Latitude.mean())
+    Longitude = st.slider('Longitude', X.Longitude.min(), X.Longitude.max(), X.Longitude.mean())
 
     # Constructing the input data as a DataFrame
     data = {
