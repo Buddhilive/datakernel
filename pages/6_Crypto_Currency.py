@@ -41,15 +41,15 @@ expander_bar.markdown("""
 #---------------------------------#
 # Page layout (continued)
 ## Divide page to 3 columns (col1 = sidebar, col2 and col3 = page contents)
-col1 = st.sidebar
+# col1 = st.sidebar
 col2, col3 = st.columns((2,1))
 
 #---------------------------------#
 # Sidebar + Main panel
-col1.header('Input Options')
+st.header('Input Options')
 
 ## Sidebar - Currency price unit
-currency_price_unit = col1.selectbox('Select currency for price', ('USD', 'BTC', 'ETH'))
+currency_price_unit = st.selectbox('Select currency for price', ('USD'))
 
 # Web scraping of CoinMarketCap data
 @st.cache
@@ -60,9 +60,11 @@ def load_data():
     data = soup.find('script', id='__NEXT_DATA__', type='application/json')
     coins = {}
     coin_data = json.loads(data.contents[0])
-    listings = coin_data['props']['initialState']['cryptocurrency']['listingLatest']['data']
-    for i in listings:
-      coins[str(i['id'])] = i['slug']
+    initialState = json.loads(coin_data['props']['initialState'])
+    listings = initialState['cryptocurrency']['listingLatest']['data']
+    # st.write(listings[0])
+    for i, value in enumerate(listings[1:]):
+        coins[str(value[7])] = value[37]
 
     coin_name = []
     coin_symbol = []
@@ -73,15 +75,15 @@ def load_data():
     price = []
     volume_24h = []
 
-    for i in listings:
-      coin_name.append(i['slug'])
-      coin_symbol.append(i['symbol'])
-      price.append(i['quote'][currency_price_unit]['price'])
-      percent_change_1h.append(i['quote'][currency_price_unit]['percent_change_1h'])
-      percent_change_24h.append(i['quote'][currency_price_unit]['percent_change_24h'])
-      percent_change_7d.append(i['quote'][currency_price_unit]['percent_change_7d'])
-      market_cap.append(i['quote'][currency_price_unit]['market_cap'])
-      volume_24h.append(i['quote'][currency_price_unit]['volume_24h'])
+    for index, i in enumerate(listings[1:]):
+        coin_name.append(i[7])
+        coin_symbol.append(i[38])
+        price.append(i[28])
+        percent_change_1h.append(i[21])
+        percent_change_24h.append(i[23])
+        percent_change_7d.append(i[26])
+        market_cap.append(i[18])
+        volume_24h.append(i[31])
 
     df = pd.DataFrame(columns=['coin_name', 'coin_symbol', 'market_cap', 'percent_change_1h', 'percent_change_24h', 'percent_change_7d', 'price', 'volume_24h'])
     df['coin_name'] = coin_name
@@ -98,22 +100,22 @@ df = load_data()
 
 ## Sidebar - Cryptocurrency selections
 sorted_coin = sorted( df['coin_symbol'] )
-selected_coin = col1.multiselect('Cryptocurrency', sorted_coin, sorted_coin)
+selected_coin = st.multiselect('Cryptocurrency', sorted_coin, sorted_coin)
 
 df_selected_coin = df[ (df['coin_symbol'].isin(selected_coin)) ] # Filtering data
 
 ## Sidebar - Number of coins to display
-num_coin = col1.slider('Display Top N Coins', 1, 100, 100)
+num_coin = st.slider('Display Top N Coins', 1, 100, 100)
 df_coins = df_selected_coin[:num_coin]
 
 ## Sidebar - Percent change timeframe
-percent_timeframe = col1.selectbox('Percent change time frame',
+percent_timeframe = st.selectbox('Percent change time frame',
                                     ['7d','24h', '1h'])
 percent_dict = {"7d":'percent_change_7d',"24h":'percent_change_24h',"1h":'percent_change_1h'}
 selected_percent_timeframe = percent_dict[percent_timeframe]
 
 ## Sidebar - Sorting values
-sort_values = col1.selectbox('Sort values?', ['Yes', 'No'])
+sort_values = st.selectbox('Sort values?', ['Yes', 'No'])
 
 col2.subheader('Price Data of Selected Cryptocurrency')
 col2.write('Data Dimension: ' + str(df_selected_coin.shape[0]) + ' rows and ' + str(df_selected_coin.shape[1]) + ' columns.')
