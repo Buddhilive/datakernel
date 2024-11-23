@@ -14,7 +14,7 @@ This app retrieves the list of the **S&P 500** (from Wikipedia) and its correspo
 * **Data source:** [Wikipedia](https://en.wikipedia.org/wiki/List_of_S%26P_500_companies).
 """)
 
-st.sidebar.header('User Input Features')
+st.header('User Input Features')
 
 # Web scraping of S&P 500 data
 #
@@ -30,7 +30,7 @@ sector = df.groupby('GICS Sector')
 
 # Sidebar - Sector selection
 sorted_sector_unique = sorted( df['GICS Sector'].unique() )
-selected_sector = st.sidebar.multiselect('Sector', sorted_sector_unique, sorted_sector_unique)
+selected_sector = st.multiselect('Sector', sorted_sector_unique, sorted_sector_unique)
 
 # Filtering data
 df_selected_sector = df[ (df['GICS Sector'].isin(selected_sector)) ]
@@ -74,7 +74,7 @@ def price_plot(symbol):
   plt.ylabel('Closing Price', fontweight='bold')
   return st.pyplot()
 
-num_company = st.sidebar.slider('Number of Companies', 1, 5)
+num_company = st.slider('Number of Companies', 1, 5)
 
 if st.button('Show Plots'):
     st.header('Stock Closing Price')
