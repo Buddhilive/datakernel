@@ -61,7 +61,11 @@ if st.button('Intercorrelation Heatmap'):
     df_selected_team.to_csv('temp/output_football.csv',index=False)
     df = pd.read_csv('temp/output_football.csv')
 
-    corr = df.corr()
+    # Select only numeric columns
+    df_numeric = df.select_dtypes(include=['number'])
+
+    # Calculate correlation matrix
+    corr = df_numeric.corr()
     mask = np.zeros_like(corr)
     mask[np.triu_indices_from(mask)] = True
     with sns.axes_style("white"):
