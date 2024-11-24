@@ -41,3 +41,10 @@ if (population_data.duplicated().any()):
 
 st.header("Dataset Information")
 st.write(population_data.describe())
+
+st.header("Find Correlations")
+# Select only numeric columns
+numeric_cols = population_data.select_dtypes(include=['number'])
+
+# Calculate the correlation matrix and display
+st.write(numeric_cols.corr())
