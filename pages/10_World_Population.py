@@ -27,6 +27,9 @@ population_data["Yearly Change"] = population_data["Yearly Change"].str.replace(
 population_data["Fert. Rate"] = population_data["Fert. Rate"].replace('N.A.', np.nan).astype(float)
 population_data["Fert. Rate"].fillna(population_data["Fert. Rate"].median(), inplace = True)
 
+population_data["Med. Age"] = population_data["Med. Age"].replace('N.A.', np.nan).astype(float)
+population_data["Med. Age"].fillna(population_data["Med. Age"].median(), inplace = True)
+
 population_data["Urban Pop %"] = population_data["Urban Pop %"].str.replace(' %', '').replace('N.A.', np.nan).astype(float)
 population_data["Urban Pop %"].fillna(population_data["Urban Pop %"].median(), inplace = True)
 
