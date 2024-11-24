@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import io
+import numpy as np
 
 st.title("World Population")
 st.write(
@@ -21,7 +21,11 @@ st.write(filtered_df)
 
 # Cleaning Dataset
 population_data["Migrants (net)"].fillna(population_data["Migrants (net)"].median(), inplace = True)
+
 population_data["Yearly Change"] = population_data["Yearly Change"].str.replace(' %', '').astype(float)
+
+population_data["Urban Pop %"] = population_data["Urban Pop %"].str.replace(' %', '').replace('N.A.', np.nan).astype(float)
+population_data["Urban Pop %"].fillna(population_data["Urban Pop %"].median(), inplace = True)
 
 st.header("Dataset Information")
 st.write(population_data.describe())
