@@ -52,14 +52,27 @@ numeric_cols = population_data.select_dtypes(include=['number'])
 st.write(numeric_cols.corr())
 
 # Plotting Data
-st.header("Population vs. Median Age")
+st.header("Analyze Data")
 # Get a list of unique countries
 country_options = population_data['Country (or dependency)'].unique()
 
 # Create a multiselect widget
 selected_countries = st.multiselect('Select Countries', country_options)
 filtered_data = population_data[population_data['Country (or dependency)'].isin(selected_countries)]
+
+st.header("Population World Share")
 # Create a scatter plot
+fig, ax = plt.subplots()
+sns.scatterplot(x="Population (2020)", y="World Share", data=filtered_data, ax=ax)
+# Annotate each point with the country name
+for i, row in filtered_data.iterrows():
+    ax.annotate(row['Country (or dependency)'], (row['Population (2020)'], row['World Share']))
+ax.set_title("Population vs. World Share")
+ax.set_xlabel("Population (2020)")
+ax.set_ylabel("World Share")
+st.pyplot(fig)
+
+st.header("Population vs. Median Age")
 fig, ax = plt.subplots()
 sns.scatterplot(x="Population (2020)", y="Med. Age", data=filtered_data, ax=ax)
 # Annotate each point with the country name
@@ -68,6 +81,4 @@ for i, row in filtered_data.iterrows():
 ax.set_title("Population vs. Median Age")
 ax.set_xlabel("Population (2020)")
 ax.set_ylabel("Median Age")
-
-# Display the plot in Streamlit
 st.pyplot(fig)
