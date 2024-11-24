@@ -36,5 +36,8 @@ population_data["Urban Pop %"].fillna(population_data["Urban Pop %"].median(), i
 population_data["World Share"] = population_data["World Share"].str.replace(' %', '').replace('N.A.', np.nan).astype(float)
 population_data["World Share"].fillna(population_data["World Share"].median(), inplace = True)
 
+if (population_data.duplicated().any()):
+    population_data.drop_duplicates(inplace = True)
+
 st.header("Dataset Information")
 st.write(population_data.describe())
