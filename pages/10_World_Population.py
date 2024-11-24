@@ -21,6 +21,7 @@ st.write(filtered_df)
 
 # Cleaning Dataset
 population_data["Migrants (net)"].fillna(population_data["Migrants (net)"].median(), inplace = True)
+population_data["Yearly Change"] = population_data["Yearly Change"].str.replace(' %', '').astype(float)
 
 st.header("Dataset Information")
 st.write(population_data.describe())
