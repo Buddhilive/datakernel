@@ -82,12 +82,22 @@ ax.set_xlabel("Population (2020)")
 ax.set_ylabel("Median Age")
 st.pyplot(fig)
 
+st.header("Fert. Rate vs. Median Age")
+fig, ax = plt.subplots()
+sns.scatterplot(x="Fert. Rate", y="Med. Age", data=filtered_data, ax=ax)
+for i, row in filtered_data.iterrows():
+    ax.annotate(row['Country (or dependency)'], (row['Fert. Rate'], row['Med. Age']))
+ax.set_title("Fert. Rate vs. Median Age")
+ax.set_xlabel("Fert. Rate")
+ax.set_ylabel("Median Age")
+st.pyplot(fig)
+
 st.header("Net Change World Share")
 fig, ax = plt.subplots()
 sns.scatterplot(x="World Share", y="Net Change", data=filtered_data, ax=ax)
 for i, row in filtered_data.iterrows():
     ax.annotate(row['Country (or dependency)'], (row['World Share'], row['Net Change']))
-ax.set_title("World Share Net Change")
+ax.set_title("Net Change World Share")
 ax.set_xlabel("World Share")
 ax.set_ylabel("Net Change")
 st.pyplot(fig)
