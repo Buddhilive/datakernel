@@ -53,11 +53,17 @@ st.write(numeric_cols.corr())
 
 # Plotting Data
 st.header("Population vs. Median Age")
+# Get a list of unique countries
+country_options = population_data['Country (or dependency)'].unique()
+
+# Create a multiselect widget
+selected_countries = st.multiselect('Select Countries', country_options)
+filtered_data = population_data[population_data['Country (or dependency)'].isin(selected_countries)]
 # Create a scatter plot
 fig, ax = plt.subplots()
-sns.scatterplot(x="Population (2020)", y="Med. Age", data=population_data, ax=ax)
+sns.scatterplot(x="Population (2020)", y="Med. Age", data=filtered_data, ax=ax)
 # Annotate each point with the country name
-for i, row in population_data.iterrows():
+for i, row in filtered_data.iterrows():
     ax.annotate(row['Country (or dependency)'], (row['Population (2020)'], row['Med. Age']))
 ax.set_title("Population vs. Median Age")
 ax.set_xlabel("Population (2020)")
