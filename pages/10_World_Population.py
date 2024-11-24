@@ -33,5 +33,8 @@ population_data["Med. Age"].fillna(population_data["Med. Age"].median(), inplace
 population_data["Urban Pop %"] = population_data["Urban Pop %"].str.replace(' %', '').replace('N.A.', np.nan).astype(float)
 population_data["Urban Pop %"].fillna(population_data["Urban Pop %"].median(), inplace = True)
 
+population_data["World Share"] = population_data["World Share"].str.replace(' %', '').replace('N.A.', np.nan).astype(float)
+population_data["World Share"].fillna(population_data["World Share"].median(), inplace = True)
+
 st.header("Dataset Information")
 st.write(population_data.describe())
