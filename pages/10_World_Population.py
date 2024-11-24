@@ -75,10 +75,19 @@ st.pyplot(fig)
 st.header("Population vs. Median Age")
 fig, ax = plt.subplots()
 sns.scatterplot(x="Population (2020)", y="Med. Age", data=filtered_data, ax=ax)
-# Annotate each point with the country name
 for i, row in filtered_data.iterrows():
     ax.annotate(row['Country (or dependency)'], (row['Population (2020)'], row['Med. Age']))
 ax.set_title("Population vs. Median Age")
 ax.set_xlabel("Population (2020)")
 ax.set_ylabel("Median Age")
+st.pyplot(fig)
+
+st.header("Net Change World Share")
+fig, ax = plt.subplots()
+sns.scatterplot(x="World Share", y="Net Change", data=filtered_data, ax=ax)
+for i, row in filtered_data.iterrows():
+    ax.annotate(row['Country (or dependency)'], (row['World Share'], row['Net Change']))
+ax.set_title("World Share Net Change")
+ax.set_xlabel("World Share")
+ax.set_ylabel("Net Change")
 st.pyplot(fig)
