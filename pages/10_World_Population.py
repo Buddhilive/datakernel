@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import io
 
 st.title("World Population")
 st.write(
@@ -17,3 +18,9 @@ st.header("Select data by Country")
 selected_country = st.selectbox("Country", sorted(population_data["Country (or dependency)"]))
 filtered_df = population_data[population_data['Country (or dependency)'] == selected_country]
 st.write(filtered_df)
+
+# Cleaning Dataset
+population_data["Migrants (net)"].fillna(population_data["Migrants (net)"].median(), inplace = True)
+
+st.header("Dataset Information")
+st.write(population_data.describe())
