@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 st.title("World Population")
 st.write(
@@ -48,3 +50,18 @@ numeric_cols = population_data.select_dtypes(include=['number'])
 
 # Calculate the correlation matrix and display
 st.write(numeric_cols.corr())
+
+# Plotting Data
+st.header("Population vs. Median Age")
+# Create a scatter plot
+fig, ax = plt.subplots()
+sns.scatterplot(x="Population (2020)", y="Med. Age", data=population_data, ax=ax)
+# Annotate each point with the country name
+for i, row in population_data.iterrows():
+    ax.annotate(row['Country (or dependency)'], (row['Population (2020)'], row['Med. Age']))
+ax.set_title("Population vs. Median Age")
+ax.set_xlabel("Population (2020)")
+ax.set_ylabel("Median Age")
+
+# Display the plot in Streamlit
+st.pyplot(fig)
