@@ -11,7 +11,7 @@ Analysing world population data
 """
 )
 
-population_data = pd.read_csv("data/population.csv")
+population_data = pd.read_csv("tutorial/data/population.csv")
 
 st.header("Data Summary")
 st.write(population_data.head())
